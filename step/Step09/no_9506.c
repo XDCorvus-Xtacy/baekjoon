@@ -33,13 +33,27 @@ int FindPerfectNum(int a)
 {
     int sum = 0;
 
-    for (int i=1; i <= a; i++)
+    for (int i=1; i < a; i++)
     {
-        if (a%i == 0)   sum += i;
+        if (a%i == 0)   
+        {
+            sum += i;
+        }
     }
 
     if (sum == a)   return a;
     else    return -1;
+}
+
+void PrintEquation(int a)
+{
+    printf("%d = 1", a);
+    for (int i=2; i < a; i++)
+    {
+        if (a%i == 0)
+            printf(" + %d", i);
+    }
+    printf("\n");
 }
 
 int main(void)
@@ -47,16 +61,19 @@ int main(void)
     int nInput = 0;
     char buffer[100000];
 
-    while (nInput != -1)
+    while (1)
     {
         //숫자 입력
         printf("Input number: ");
         fgets(buffer, sizeof(buffer), stdin);
         sscanf(buffer, "%d", &nInput);
-
-        //완전수 구하기
-        if (FindPerfectNum(nInput) == -1)
-            printf("%d is NOT perfect.\n", nInput);
-        else printf("%d is perfect.\n", nInput);
+        if (nInput != -1)
+        {
+            //완전수 구하기
+            if (FindPerfectNum(nInput) == -1)
+                printf("%d is NOT perfect.\n", nInput);
+            else PrintEquation(nInput);
+        }
+        else    break;
     }
 }

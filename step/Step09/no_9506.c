@@ -39,7 +39,7 @@ int GetDivisors(int n, int divisors[])
 
     divisors[count++] = 1;  //1은 늘 약수
 
-    for (int i=2; i<sqrt(n); i++)
+    for (int i=2; i<=sqrt(n); i++)
     {
         if (n%i == 0)
         {

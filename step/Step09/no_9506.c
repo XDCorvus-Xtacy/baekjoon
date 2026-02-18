@@ -27,53 +27,88 @@ n이 완전수가 아니라면 n is NOT perfect. 를 출력한다.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
-//완전수 구하는 함수
-int FindPerfectNum(int a)
+//약수 구하기
+int GetDivisors(int n, int divisors[])
 {
-    int sum = 0;
+    int count = 0;
 
-    for (int i=1; i < a; i++)
+    if (n <= 1) return 0;
+
+    divisors[count++] = 1;  //1은 늘 약수
+
+    for (int i=2; i<sqrt(n); i++)
     {
-        if (a%i == 0)   
+        if (n%i == 0)
         {
-            sum += i;
+            divisors[count++] = i;
+
+            if (i != n/i)   //제곱수 방지
+                divisors[count++] = n/i;
         }
     }
 
-    if (sum == a)   return a;
-    else    return -1;
+    return count;
 }
 
-void PrintEquation(int a)
+//완전수 판별
+int IsPerfect(int n, int divisors[], int count)
 {
-    printf("%d = 1", a);
-    for (int i=2; i < a; i++)
+    int sum = 0;
+
+    for (int i=0; i<count; i++)
+        sum += divisors[i];
+
+        return (sum == n);
+}
+
+//qsort() 매개함수
+int compare(const void* a, const void* b)
+{
+    return (*(int*)a - *(int*)b);
+}
+
+
+//식 출력
+void PrintEquation(int n, int divisors[], int count)
+{
+    printf("%d = ", n);
+
+    for (int i=0; i < count; i++)
     {
-        if (a%i == 0)
-            printf(" + %d", i);
+        printf("%d", divisors[i]);
+        if (i != count-1)
+            printf(" + ");
     }
     printf("\n");
 }
 
+//메인 함수
 int main(void)
 {
     int nInput = 0;
-    char buffer[100000];
 
     while (1)
     {
         //숫자 입력
-        printf("Input number: ");
-        fgets(buffer, sizeof(buffer), stdin);
-        sscanf(buffer, "%d", &nInput);
-        if (nInput != -1)
+        scanf("%d", &nInput);
+        if (nInput == -1)
+            break;
+
+        int divisors[100000];
+        int count = GetDivisors(nInput, divisors);
+
+        //완전수 구하기
+        if (IsPerfect(nInput, divisors, count))
         {
-            //완전수 구하기
-            if (FindPerfectNum(nInput) == -1)
-                printf("%d is NOT perfect.\n", nInput);
-            else PrintEquation(nInput);
+            qsort(divisors, count, sizeof(int), compare);
+            PrintEquation(nInput, divisors, count);
         }
-        else    break;
+        else 
+        {
+            printf("%d is NOT perfect.\n", nInput);    
+        }
     }
 }

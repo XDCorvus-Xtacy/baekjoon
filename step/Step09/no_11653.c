@@ -1,0 +1,68 @@
+/*
+문제
+정수 N이 주어졌을 때, 소인수분해하는 프로그램을 작성하시오.
+
+입력
+첫째 줄에 정수 N (1 ≤ N ≤ 10,000,000)이 주어진다.
+
+출력
+N의 소인수분해 결과를 한 줄에 하나씩 오름차순으로 출력한다. 
+N이 1인 경우 아무것도 출력하지 않는다.
+
+예제 입력 1 
+72
+예제 출력 1 
+2
+2
+2
+3
+3
+
+예제 입력 2 
+3
+예제 출력 2 
+3
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void GetPrime(int PrimeList[], int max)
+{
+    for (int i=2; i<=max; i++)
+        PrimeList[i] = 1;
+
+    for (int i=2; i*i<=max; i++)
+    {
+        if (PrimeList[i])
+        {
+            for (int j=i*i; j<=max; j+=i)
+                PrimeList[j] = 0;
+        }
+    }
+}
+
+int main(void)
+{
+    int nInput;
+    scanf("%d", &nInput);
+
+    int* PrimeList = malloc(sizeof(int)*(nInput + 1));
+
+    GetPrime(PrimeList, nInput);
+
+    for (int i=2; i*i<=nInput; i++)
+    {
+        if (PrimeList[i] == 1)
+        {   
+            while (nInput%i == 0)
+            {
+                printf("%d\n", i);
+                nInput = nInput/i;
+            }
+        }
+    }
+
+    if (nInput > 1)
+        printf("%d\n", nInput);
+}

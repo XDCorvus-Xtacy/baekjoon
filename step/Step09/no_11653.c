@@ -47,19 +47,18 @@ int main(void)
     int nInput;
     scanf("%d", &nInput);
 
-    int* PrimeList = malloc(sizeof(int)*(nInput + 1));
-
-    GetPrime(PrimeList, nInput);
-
-    for (int i=2; i*i<=nInput; i++)
+    while (nInput%2 == 0)
     {
-        if (PrimeList[i] == 1)
-        {   
-            while (nInput%i == 0)
-            {
-                printf("%d\n", i);
-                nInput = nInput/i;
-            }
+        printf("2\n");
+        nInput /= 2;
+    }
+
+    for (int i=3; i*i<=nInput; i+=2)
+    {
+        while (nInput%i == 0)
+        {
+            printf("%d\n", i);
+            nInput = nInput/i;
         }
     }
 

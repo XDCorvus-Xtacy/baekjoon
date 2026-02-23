@@ -44,8 +44,8 @@
 
 int main(void)
 {
-    int nInput = 0;
-    scanf("%d", &nInput);
+    long long nInput = 0;
+    scanf("%lld", &nInput);
 
-    printf("%d\n", 4*nInput);
+    printf("%lld\n", 4*nInput);
 }
